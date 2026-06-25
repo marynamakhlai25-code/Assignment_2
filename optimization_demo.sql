@@ -1,7 +1,7 @@
 -- PostgreSQL Optimization Demo
 -- Use EXPLAIN or EXPLAIN ANALYZE before each query to compare execution plans.
 
--- 1. Non-optimized query
+--Non-optimized query
 EXPLAIN ANALYZE
 SELECT
     (
@@ -54,13 +54,13 @@ SELECT
         ) LIMIT 1
     ) AS max_likes;
 
--- 2. Indexes for optimization
+--Indexes for optimization
 CREATE INDEX IF NOT EXISTS idx_social_likes_date ON social_likes(like_date);
 CREATE INDEX IF NOT EXISTS idx_social_likes_post ON social_likes(post_id);
 CREATE INDEX IF NOT EXISTS idx_social_likes_user ON social_likes(user_id);
 CREATE INDEX IF NOT EXISTS idx_social_users_status ON social_users(account_status);
 
--- 3. Optimized query
+--Optimized query
 EXPLAIN ANALYZE
 WITH filtered_likes AS (
     SELECT p.title
@@ -86,7 +86,7 @@ SELECT
     MAX(CONCAT(title, ': ', cnt)) FILTER (WHERE max_rn = 1) AS max_likes_post
 FROM ranked_posts;
 
--- 4. Bonus task
+--Bonus task
 SET enable_indexscan = OFF;
 SET enable_bitmapscan = OFF;
 
